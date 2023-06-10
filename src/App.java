@@ -7,11 +7,6 @@ public class App {
     static String item = "run";
 
     public static void main(String[] args) throws Exception {
-        Player player = new Player(1, "J1", position);
-        player.storeItem(item);
-
-        System.out.println(player.getStoredItem());
-
-;
+        System.out.println("Hello World!");
     }
 }
