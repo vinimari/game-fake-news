@@ -1,3 +1,4 @@
+package classes;
 public class Board {
     private String[][] matriz;
     
