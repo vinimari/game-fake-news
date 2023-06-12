@@ -72,17 +72,22 @@ public class MakeTurn {
 
   static void setFakenewsRandomPosition(Fakenews fakenews) {
     String[][] position_board = board.getMatriz();
-    
+
     position_board[fakenews.getPosition()[0]][fakenews.getPosition()[1]] = Cores.ANSI_RED
         + fakenews.getFakeNewName();
   }
 
   static int[] generateRandomPosition(int min, int max) {
+    String[][] position_board = board.getMatriz();
     Random rand = new Random();
-    int row = rand.nextInt(max - min + 1) + min;
-    int col = rand.nextInt(max - min + 1) + min;
-    int[] position = { row, col };
+    int row, col;
 
+    do {
+      row = rand.nextInt(max - min + 1) + min;
+      col = rand.nextInt(max - min + 1) + min;
+    } while (position_board[row][col] != " ");
+
+    int[] position = { row, col };
     return position;
   }
 
