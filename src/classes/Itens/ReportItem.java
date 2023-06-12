@@ -2,8 +2,8 @@ package classes.Itens;
 
 public class ReportItem extends Item {
 
-  ReportItem(int id, String item_name, int[] current_position) {
-    super(id, item_name, current_position);
+  ReportItem(int id, int[] current_position) {
+    super(id, 1, current_position);
     // TODO Auto-generated constructor stub
   }
 
