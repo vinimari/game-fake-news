@@ -13,19 +13,19 @@ public abstract class Fakenews {
     this.position = position;
   }
 
-  protected int getId() {
+  public int getId() {
     return this.id;
   }
 
-  protected int getType() {
+  public int getType() {
     return this.type;
   }
 
-  protected String getFakeNewName() {
+  public String getFakeNewName() {
     return this.fake_news_name;
   }
 
-  protected int[] getPosition() {
+  public int[] getPosition() {
     return this.position;
   }
 

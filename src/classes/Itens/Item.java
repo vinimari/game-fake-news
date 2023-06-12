@@ -15,7 +15,7 @@ public abstract class Item {
     return id;
   }
 
-  protected String getItemName() {
+  public String getItemName() {
     return item_name;
   }
 
