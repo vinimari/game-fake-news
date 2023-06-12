@@ -2,7 +2,7 @@ package classes.Itens;
 
 public class RunItem extends Item {
 
-  RunItem(int id, int[] current_position) {
+  public RunItem(int id, int[] current_position) {
     super(id, 2, current_position);
     // TODO Auto-generated constructor stub
   }

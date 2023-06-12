@@ -8,6 +8,8 @@ import classes.FakeNews.FakenewsThree;
 import classes.FakeNews.FakenewsTwo;
 import classes.Itens.Item;
 import classes.Itens.ReadItem;
+import classes.Itens.ReportItem;
+import classes.Itens.RunItem;
 
 public class MakeTurn {
   int round = 20;
@@ -77,6 +79,51 @@ public class MakeTurn {
         + fakenews.getFakeNewName();
   }
 
+  static Item[] createItem() {
+    int item_quantity = 2; // minimum value: 2
+    Item[] item_list = new Item[item_quantity];
+
+    // Generate radom item type
+    int min = 1, max = 4;
+    Random rand = new Random();
+    int randon_item_type = rand.nextInt(max - min + 1) + min;
+
+    for (int i = 0; i < item_quantity; i++) {
+      item_list[i] = createItemFactory(randon_item_type, i);
+      setItemRandomPosition(item_list[i]);
+    }
+    return item_list;
+  }
+
+  static Item createItemFactory(int type, int id) {
+    int min = 0, max = 8;
+    switch (type) {
+      case 1: {
+        int[] random_position = generateRandomPosition(min, max);
+        return new ReportItem(id + 1, random_position);
+      }
+      case 2: {
+        int[] random_position = generateRandomPosition(min, max);
+        return new RunItem(id + 1, random_position);
+      }
+      case 3: {
+        int[] random_position = generateRandomPosition(min, max);
+        return new ReadItem(id + 1, random_position);
+      }
+      case 4: {
+        int[] random_position = generateRandomPosition(min, max);
+        return new ReadItem(id + 1, random_position);
+      }
+    }
+    return null;
+  }
+
+  static void setItemRandomPosition(Item item) {
+    String[][] position_board = board.getMatriz();
+
+    position_board[item.getCurrentPosition()[0]][item.getCurrentPosition()[1]] = Cores.ANSI_YELLOW + item.getItemName();
+  }
+
   static int[] generateRandomPosition(int min, int max) {
     String[][] position_board = board.getMatriz();
     Random rand = new Random();
@@ -89,18 +136,6 @@ public class MakeTurn {
 
     int[] position = { row, col };
     return position;
-  }
-
-  static void createItem() {
-    Random rand = new Random();
-    int upperbound = 9;
-    int row = rand.nextInt(upperbound);
-    int col = rand.nextInt(upperbound);
-    int[] position = { row, col };
-    Item item = new ReadItem(1, "??", position);
-
-    String[][] position_board = board.getMatriz();
-    position_board[position[0]][position[1]] = Cores.ANSI_YELLOW + item.getItemName();
   }
 
   static void onSetBoard() {
