@@ -25,7 +25,7 @@ public class Board {
         }
     }
 
-    public void showBoard() {
+      public void showBoard() {
         for (int linha = 0; linha < matriz.length; linha++) {
             for (int coluna = 0; coluna < matriz[linha].length; coluna++) {
                 System.out.print("+----");
@@ -33,22 +33,23 @@ public class Board {
             System.out.println("+");
 
             for (int coluna = 0; coluna < matriz[linha].length; coluna++) {
-                System.out.print( "| "+Cores.ANSI_RED + matriz[linha][coluna] + Cores.ANSI_RESET + "  ");
+                String value = matriz[linha][coluna];
+                System.out.printf("| %s%s ", value.length() > 0 ? value.substring(0, 1) : " ", value.length() > 1 ? value.substring(1) : " ");
             }
             System.out.println("|");
         }
-        
+
         for (int coluna = 0; coluna < matriz[0].length; coluna++) {
             System.out.print("+----");
         }
         System.out.println("+");
     }
 
-    public static void main(String[] args)
-     {
-        Board tabuleiro = new Board(9);
-        String[][] position_board = tabuleiro.getMatriz();
-        position_board[0][0] = Cores.ANSI_YELLOW + "X"; //TODO: transformar cor em atributo da classe Jogador/item/fakenews
+    // public static void main(String[] args)
+    //  {
+    //     Board tabuleiro = new Board(9);
+    //     String[][] position_board = tabuleiro.getMatriz();
+    //     position_board[0][0] = Cores.ANSI_YELLOW + "X"; //TODO: transformar cor em atributo da classe Jogador/item/fakenews
         // position_board[1][1] = 'X';
         // position_board[2][2] = 'X';
         // position_board[3][3] = 'X';
@@ -59,6 +60,6 @@ public class Board {
         // position_board[8][8] = 'X';
         // position_board[8][7] = 'X';
 
-        tabuleiro.showBoard();
-    }
+    //     tabuleiro.showBoard();
+    // }
 }
