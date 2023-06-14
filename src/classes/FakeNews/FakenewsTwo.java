@@ -8,7 +8,7 @@ public class FakenewsTwo extends Fakenews {
 
   public FakenewsTwo(int id, int type, String fake_news_name, int[] position) {
     super(id, type, fake_news_name, position);
-    //TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
   }
 
   @Override
@@ -100,7 +100,7 @@ public class FakenewsTwo extends Fakenews {
           return "F2 tentou se mover para o Oeste, mas a posição está ocupada. F2 foi removida.";
         }
     }
-     matriz[row][col] = " ";
+    matriz[row][col] = " ";
     return "Movimento inválido, logo, foi removida";
 
   }
