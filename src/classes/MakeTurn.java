@@ -3,8 +3,6 @@ import java.util.Random;
 import classes.Itens.*;
 import classes.FakeNews.*;
 
-
-
 // import classes.FakeNews.Fakenews;
 // import classes.FakeNews.FakenewsOne;
 // import classes.FakeNews.FakenewsThree;
@@ -165,7 +163,7 @@ public class MakeTurn {
 
   static void onSetBoard() {
     board = new Board(9);
-    int restriction_zones = 3;
+    int restriction_zones = 4;
     generateZones(restriction_zones);
     Fakenews[] fakenewsList = createFakeNews();
     board.showBoard();
