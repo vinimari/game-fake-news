@@ -157,7 +157,7 @@ public class MakeTurn {
       int[] randomPosition = generateRandomPosition(1, 5);
       int row = randomPosition[0];
       int col = randomPosition[1];
-      position_board[row][col] = Cores.ANSI_CYAN + "XX" + Cores.ANSI_RESET;
+      position_board[row][col] = Cores.ANSI_WHITE + "XX" + Cores.ANSI_RESET;
     }
   }
 
