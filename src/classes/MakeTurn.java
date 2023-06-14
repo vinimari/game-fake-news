@@ -1,5 +1,9 @@
 package classes;
+
+import java.io.Console;
 import java.util.Random;
+import java.util.Scanner;
+
 import classes.Itens.*;
 import classes.FakeNews.*;
 
@@ -16,20 +20,21 @@ public class MakeTurn {
   int round = 20;
   static Board board;
   static FakenewsOne fakenewsOne;
+  static Player[] players_alive;
 
-
-  static Player[] createPlayer(int players_quantity) { //TODO: colocar os jogadores nas posicoes e os nomes de acordo com o n
-    // int players_quantity = 4; // define by user 
+  static void createPlayer(int players_quantity) { // TODO: colocar os jogadores nas posicoes e os nomes de acordo
+                                                   // com o n
+    // int players_quantity = 4; // define by user
     String[] players_names = { "J1", "J2", "J3", "J4" };
     int[][] players_position = { { 0, 4 }, { 4, 8 }, { 8, 4 }, { 4, 0 } };
-    Player[] player_list = new Player[players_quantity];
+    players_alive = new Player[players_quantity];
     String[][] position_board = board.getMatriz();
 
     for (int i = 0; i < players_quantity; i++) {
-      player_list[i] = new Player(i + 1, players_names[i], players_position[i]);
-      position_board[players_position[i][0]][players_position[i][1]] = Cores.ANSI_GREEN + players_names[i] +  Cores.ANSI_RESET ;
+      players_alive[i] = new Player(i + 1, players_names[i], players_position[i]);
+      position_board[players_position[i][0]][players_position[i][1]] = Cores.ANSI_GREEN + players_names[i]
+          + Cores.ANSI_RESET;
     }
-    return player_list;
   }
 
   static Fakenews[] createFakeNews() {
@@ -41,7 +46,8 @@ public class MakeTurn {
     while (count_fakenews < fakenews_quantity) {
       for (int i = 0; i < fakenews_type.length; i++) {
         int current_type = fakenews_type[i];
-        // fakenews_list[count_fakenews] = createFakeNewsFactory(current_type, count_fakenews);
+        // fakenews_list[count_fakenews] = createFakeNewsFactory(current_type,
+        // count_fakenews);
         fakenews_list[count_fakenews] = createFakeNewsFactory(current_type, count_fakenews);
         setFakenewsRandomPosition(fakenews_list[count_fakenews]);
         count_fakenews++;
@@ -49,11 +55,11 @@ public class MakeTurn {
       // Atribua a instância de FakenewsOne à variável fakenewsOne
     }
     for (Fakenews fakenews : fakenews_list) {
-    if (fakenews instanceof FakenewsOne) {
-      fakenewsOne = (FakenewsOne) fakenews;
-      break;
+      if (fakenews instanceof FakenewsOne) {
+        fakenewsOne = (FakenewsOne) fakenews;
+        break;
+      }
     }
-  }
     return fakenews_list;
   }
 
@@ -64,7 +70,7 @@ public class MakeTurn {
         String[][] Board = board.getMatriz();
         String fakenews_name = "F1";
         return new FakenewsOne(id + 1, type, fakenews_name,
-            random_position,Board);
+            random_position, Board);
       }
       case 2: {
         int[] random_position = generateRandomPosition(1, 7);
@@ -88,7 +94,7 @@ public class MakeTurn {
     String[][] position_board = board.getMatriz();
 
     position_board[fakenews.getPosition()[0]][fakenews.getPosition()[1]] = Cores.ANSI_RED
-        + fakenews.getFakeNewName()  +  Cores.ANSI_RESET;
+        + fakenews.getFakeNewName() + Cores.ANSI_RESET;
   }
 
   static Item[] createItem() {
@@ -133,7 +139,8 @@ public class MakeTurn {
   static void setItemRandomPosition(Item item) {
     String[][] position_board = board.getMatriz();
 
-    position_board[item.getCurrentPosition()[0]][item.getCurrentPosition()[1]] = Cores.ANSI_YELLOW + item.getItemName() +  Cores.ANSI_RESET ;
+    position_board[item.getCurrentPosition()[0]][item.getCurrentPosition()[1]] = Cores.ANSI_YELLOW + item.getItemName()
+        + Cores.ANSI_RESET;
   }
 
   static int[] generateRandomPosition(int min, int max) {
@@ -158,6 +165,7 @@ public class MakeTurn {
       int row = randomPosition[0];
       int col = randomPosition[1];
       position_board[row][col] = Cores.ANSI_WHITE + "XX" + Cores.ANSI_RESET;
+
     }
   }
 
@@ -166,29 +174,31 @@ public class MakeTurn {
     int restriction_zones = 4;
     generateZones(restriction_zones);
     Fakenews[] fakenewsList = createFakeNews();
+    createPlayer(4);
+    createItem();
     board.showBoard();
-    // createPlayer(4);
+    onPlayersTurn();
+    ;
     // createFakeNews();
-    // createItem();
     // board.showBoard();
-    //Movendo todas as FakenewsOne
-    //MOVE FAKENEWS 1
+    // Movendo todas as FakenewsOne
+    // MOVE FAKENEWS 1
     // for (Fakenews fakenews : fakenewsList) {
-    //   if (fakenews instanceof FakenewsOne) {
-    //     FakenewsOne fakenewsOne = (FakenewsOne) fakenews;
-    //     String resultadoMovimento = fakenewsOne.moveFakeNews(board.getMatriz());
-    //     // fakenewsOne.moveFakeNews(board.getMatriz());
-    //     System.out.println(resultadoMovimento);
-    //   }
+    // if (fakenews instanceof FakenewsOne) {
+    // FakenewsOne fakenewsOne = (FakenewsOne) fakenews;
+    // String resultadoMovimento = fakenewsOne.moveFakeNews(board.getMatriz());
+    // // fakenewsOne.moveFakeNews(board.getMatriz());
+    // System.out.println(resultadoMovimento);
     // }
-    //MOVE FAKENEWS 2
+    // }
+    // MOVE FAKENEWS 2
     // for (Fakenews fakenews : fakenewsList) {
-    //   if (fakenews instanceof FakenewsTwo) {
-    //     FakenewsTwo fakenewsTwo = (FakenewsTwo) fakenews;
-    //     String resultadoMovimento = fakenewsTwo.moveFakeNews(board.getMatriz());
-    //     // fakenewsOne.moveFakeNews(board.getMatriz());
-    //     System.out.println(resultadoMovimento);
-    //   }
+    // if (fakenews instanceof FakenewsTwo) {
+    // FakenewsTwo fakenewsTwo = (FakenewsTwo) fakenews;
+    // String resultadoMovimento = fakenewsTwo.moveFakeNews(board.getMatriz());
+    // // fakenewsOne.moveFakeNews(board.getMatriz());
+    // System.out.println(resultadoMovimento);
+    // }
     // }
     // MOVE FAKENEWS 3
     for (Fakenews fakenews : fakenewsList) {
@@ -201,7 +211,38 @@ public class MakeTurn {
     }
     board.showBoard();
   }
-  
+
+  static void clearPlayerLastPosition(Player player) {
+    int[] player_last_position = player.getCurrentPosition();
+    int row = player_last_position[0], col = player_last_position[1];
+    board.setValue(row, col, " ");
+  }
+
+  static void setPlayerNewPosition(Player player) {
+    String[][] position_board = board.getMatriz();
+    int[] player_position = player.getCurrentPosition();
+    String player_name = player.getPlayerName();
+
+    position_board[player_position[0]][player_position[1]] = Cores.ANSI_GREEN + player_name
+        + Cores.ANSI_RESET;
+  }
+
+  static void onPlayersTurn() {
+    System.out.println("VEZ DOS JOGADORES");
+    for (Player player : players_alive) {
+      System.out.println(player);
+      String player_name = player.getPlayerName();
+      System.out.println("É a vez do jogador " + player_name + ", escolha sua ação:");
+      System.out.println("1: Norte | 2: Sul | 3: Leste (Direita) | 4: Oeste (Esquerda) | 5: Utilizar item");
+      Scanner scanner = new Scanner(System.in);
+      int player_movement_direction = scanner.nextInt();
+      clearPlayerLastPosition(player);
+      player.movePlayer(player_movement_direction);
+      setPlayerNewPosition(player);
+      board.showBoard();
+    }
+  }
+
   public static void main(String[] args) {
     onSetBoard();
   }
