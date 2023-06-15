@@ -28,7 +28,7 @@ public class Player {
     return this.stored_item;
   }
 
-  public void movePlayer(int new_direction) {
+  public void movePlayer(String new_direction) {
 
     int[] currentPosition = getCurrentPosition();
     int row = currentPosition[0];
@@ -36,22 +36,22 @@ public class Player {
 
     switch (new_direction) {
       // Move North (decrease row one unity)
-      case 1: {
+      case "W": {
         this.current_position[0] = this.current_position[0] - 1;
         break;
       }
       // Move South (increase row one unity)
-      case 2: {
+      case "S": {
         this.current_position[0] = this.current_position[0] + 1;
         break;
       }
       // Move East / Right (increase col one unity)
-      case 3: {
+      case "D": {
         this.current_position[1] = this.current_position[1] + 1;
         break;
       }
       // Move West / Left (decrease col one unity)
-      case 4: {
+      case "A": {
         this.current_position[1] = this.current_position[1] - 1;
         break;
       }

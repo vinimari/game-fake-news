@@ -1,8 +1,10 @@
 import java.util.Scanner;
+import classes.MakeTurn;
 
 public class App {
     public static void main(String[] args) throws Exception {
         displayWelcome();
+        MakeTurn.onSetBoard();
     }
 
     public static void displayWelcome() {
@@ -21,8 +23,7 @@ public class App {
         System.out.println("║       Gabriela Marques           ║");
         System.out.println("╚══════════════════════════════════╝");
         System.out.println("Pressione Enter para começar o jogo...");
-        try (Scanner scanner = new Scanner(System.in)) {
-            scanner.nextLine();
-        }
+        // Scanner scanner = new Scanner(System.in);
+        // scanner.nextLine();
     }
 }
