@@ -29,5 +29,5 @@ public abstract class Fakenews {
     return this.position;
   }
 
-  public abstract String moveFakeNews(String[][] matriz);
+  public abstract void moveFakeNews(String[][] matriz);
 }

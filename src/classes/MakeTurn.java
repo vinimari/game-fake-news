@@ -47,7 +47,7 @@ public class MakeTurn {
 
     for (int round_count = 0; round_count < round; round_count++) {
       onPlayersTurn(round_count + 1);
-      onFakenewsTurn(2000);
+      onFakenewsTurn(2500);
     }
 
     System.out.println("Turnos Finalizados - Vitória das Fakenews");

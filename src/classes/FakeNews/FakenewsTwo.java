@@ -12,96 +12,202 @@ public class FakenewsTwo extends Fakenews {
   }
 
   @Override
-  public String moveFakeNews(String[][] matriz) {
+  public void moveFakeNews(String[][] board) {
     int[] currentPosition = getPosition();
     int row = currentPosition[0];
     int col = currentPosition[1];
 
     // Gera um número aleatório de 0 a 3 para representar a direção do movimento
     Random random = new Random();
-    int direction = random.nextInt(4);
+    int movement_direction = random.nextInt(4);
 
-    // Define o número de casas a serem movidas (no caso, 2)
-    int numMoves = 2;
+    // Define o número de casas que a fake news se move
+    int distance_movement = 2;
+    int initial_name_position = 5;
 
     // Realiza o movimento com base na direção gerada aleatoriamente
-    switch (direction) {
-      case 0: // Norte
-        if (row - numMoves >= 0) {
-          if (matriz[row - numMoves][col].equals(" ")) {
-            matriz[row][col] = " ";
-            matriz[row - numMoves][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
-            position[0] = row - numMoves;
-            return "F2 fez movimento para o Norte de " + numMoves + " casas";
-          } else {
-            // A posição de destino está ocupada por outra fakenews
-            // Remover a fakenews que está tentando se mover
-            matriz[row][col] = " ";
-            return "F2 tentou se mover para o Norte, mas a posição está ocupada. F2 foi removida.";
-          }
-        }
-        break;
-      case 1: // Sul
-        if (row + numMoves < matriz.length) {
-          if (matriz[row + numMoves][col].equals(" ")) {
-            matriz[row][col] = " ";
-            matriz[row + numMoves][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
-            position[0] = row + numMoves;
-            return "F2 fez movimento para o Sul de " + numMoves + " casas";
-          } else {
-            // A posição de destino está ocupada por outra fakenews
-            // Remover a fakenews que está tentando se mover
-            matriz[row][col] = " ";
-            return "F2 tentou se mover para o Sul, mas a posição está ocupada. F2 foi removida.";
-          }
-        }
-        break;
-      case 2: // Leste
-        boolean canMoveEast = true;
-        if (col + numMoves >= matriz[row].length) {
-          canMoveEast = false;
-        } else {
-          for (int i = 1; i <= numMoves; i++) {
-            if (!matriz[row][col + i].equals(" ")) {
-              canMoveEast = false;
-              break;
-            }
-          }
-        }
-        if (canMoveEast) {
-          matriz[row][col] = " ";
-          matriz[row][col + numMoves] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
-          position[1] = col + numMoves;
-          return "F2 fez movimento para o Leste de " + numMoves + " casas";
-        } else {
-          matriz[row][col] = " ";
-          return "F2 tentou se mover para o Leste, mas a posição está ocupada. F2 foi removida.";
-        }
+    switch (movement_direction) {
+      // Move North (decrease row two unity)
+      case 0: {
+        int new_row = row - distance_movement;
 
-      case 3: // Oeste
-        boolean canMoveWest = true;
-        if (col - numMoves < 0) {
-          canMoveWest = false;
-        } else {
-          for (int i = 1; i <= numMoves; i++) {
-            if (!matriz[row][col - i].equals(" ")) {
-              canMoveWest = false;
-              break;
-            }
+        if (checkInsideBoard(new_row, col)) {
+          String piece_name = board[new_row][col];
+
+          if (piece_name == " ") {
+            displayMovementMessage(fake_news_name, "Norte");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            displayColisionMessage(fake_news_name, "jogador");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+            // Eliminar jogador
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            displayColisionMessage(fake_news_name, "fake news");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            displayColisionMessage(fake_news_name, "zona restrita");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else {
+            displayColisionMessage(fake_news_name, "item");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+            // Eliminar item
+            // Duplicar fake news
           }
-        }
-        if (canMoveWest) {
-          matriz[row][col] = " ";
-          matriz[row][col - numMoves] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
-          position[1] = col - numMoves;
-          return "F2 fez movimento para o Oeste de " + numMoves + " casas";
         } else {
-          matriz[row][col] = " ";
-          return "F2 tentou se mover para o Oeste, mas a posição está ocupada. F2 foi removida.";
+          System.out.println(fake_news_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+          // Eliminar fake news
         }
+        break;
+      }
+      // Move South (increase two unity)
+      case 1: {
+        int new_row = row + distance_movement;
+
+        if (checkInsideBoard(new_row, col)) {
+          String piece_name = board[new_row][col];
+
+          if (piece_name == " ") {
+            displayMovementMessage(fake_news_name, "Sul");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            displayColisionMessage(fake_news_name, "jogador");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+            // Eliminar jogador
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            displayColisionMessage(fake_news_name, "fake news");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            displayColisionMessage(fake_news_name, "zona restrita");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else {
+            displayColisionMessage(fake_news_name, "item");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[0] = new_row;
+            // Eliminar item
+            // Duplicar fake news
+          }
+        } else {
+          System.out.println(fake_news_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+          // Eliminar fake news
+        }
+        break;
+      }
+      // Move East / Right (increase two unity)
+      case 2: {
+        int new_col = col + distance_movement;
+
+        if (checkInsideBoard(row, new_col)) {
+          String piece_name = board[row][new_col];
+
+          if (piece_name == " ") {
+            displayMovementMessage(fake_news_name, "Leste");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            displayColisionMessage(fake_news_name, "jogador");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+            // Eliminar jogador
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            displayColisionMessage(fake_news_name, "fake news");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            displayColisionMessage(fake_news_name, "zona restrita");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else {
+            displayColisionMessage(fake_news_name, "item");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+            // Eliminar item
+            // Duplicar fake news
+          }
+        } else {
+          System.out.println(fake_news_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+          // Eliminar fake news
+        }
+        break;
+      }
+      // Move West / Left (decrease col one unity)
+      case 3: {
+        int new_col = col - distance_movement;
+
+        if (checkInsideBoard(row, new_col)) {
+          String piece_name = board[row][new_col];
+
+          if (piece_name == " ") {
+            displayMovementMessage(fake_news_name, "Oeste");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            displayColisionMessage(fake_news_name, "jogador");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+            // Eliminar jogador
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            displayColisionMessage(fake_news_name, "fake news");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            displayColisionMessage(fake_news_name, "zona restrita");
+            board[row][col] = " ";
+            // Eliminar fake news
+          } else {
+            displayColisionMessage(fake_news_name, "item");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_RED + fake_news_name + Cores.ANSI_RESET;
+            position[1] = new_col;
+            // Eliminar item
+            // Duplicar fake news
+          }
+        } else {
+          System.out.println(fake_news_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+          // Eliminar fake news
+        }
+        break;
+      }
     }
-    matriz[row][col] = " ";
-    return "Movimento inválido, logo, foi removida";
-
   }
+
+  static void displayMovementMessage(String fakenews_name, String direction) {
+    System.out.println(fakenews_name + " se moveu para: " + direction);
+  }
+
+  static void displayColisionMessage(String fakenews_name, String piece_name) {
+    System.out.println(fakenews_name + " colidiu com: " + piece_name);
+  }
+
+  static boolean checkInsideBoard(int new_row, int new_col) {
+    boolean is_inside = false;
+    if (new_row >= 0 && new_row < 9 && new_col >= 0 && new_col < 9) {
+      is_inside = true;
+    }
+    return is_inside;
+  }
+
 }
