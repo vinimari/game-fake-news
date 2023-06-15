@@ -1,5 +1,7 @@
 package classes.FakeNews;
 
+import java.util.ArrayList;
+
 public abstract class Fakenews {
   int id;
   int type;
@@ -29,5 +31,5 @@ public abstract class Fakenews {
     return this.position;
   }
 
-  public abstract void moveFakeNews(String[][] matriz);
+  public abstract void moveFakeNews(String[][] board);
 }

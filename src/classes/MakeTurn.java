@@ -3,6 +3,8 @@ package classes;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import classes.Itens.*;
 import classes.FakeNews.*;
@@ -11,7 +13,7 @@ public class MakeTurn {
   static int round = 20;
   static Board board;
   static Player[] players_alive;
-  static Fakenews[] fakenews_alive;
+  static ArrayList<Fakenews> fakenews_alive;
 
   public static void onSetBoard() {
     /*
@@ -39,12 +41,12 @@ public class MakeTurn {
 
     /*
      * START LOOP GAME
-     * Stop when 
-     *         players alives  = 0  -> fakenews victory
-     *         fakenews alives = 0  -> players victory
-     *         rounds played   = 20 -> fakenews victory 
+     * Stop when
+     * players alives = 0 -> fakenews victory
+     * fakenews alives = 0 -> players victory
+     * rounds played = 20 -> fakenews victory
      */
-
+    
     for (int round_count = 0; round_count < round; round_count++) {
       onPlayersTurn(round_count + 1);
       onFakenewsTurn(2500);
@@ -57,7 +59,6 @@ public class MakeTurn {
     System.out.println("******************");
     System.out.println("Turno das Fakenews");
     System.out.println("******************");
-
     for (Fakenews fakenews : fakenews_alive) {
       fakenews.moveFakeNews(board.getMatriz());
       try {
@@ -66,6 +67,16 @@ public class MakeTurn {
         e.printStackTrace();
       } finally {
         board.showBoard();
+      }
+    }
+
+    // Remove deed fakenews
+    Iterator<Fakenews> iterator = fakenews_alive.iterator();
+    while (iterator.hasNext()) {
+      Fakenews fakenews = iterator.next();
+      int fakenews_status = fakenews.getType();
+      if (fakenews_status == 0) {
+        iterator.remove();
       }
     }
   }
@@ -108,14 +119,14 @@ public class MakeTurn {
 
   static void createFakeNews() {
     int fakenews_number = 6, count_fakenews = 0; // fakenews_number - minimum value: 6
-    fakenews_alive = new Fakenews[fakenews_number];
+    fakenews_alive = new ArrayList<Fakenews>(fakenews_number);
     int[] fakenews_type = { 1, 2, 3 };
 
     while (count_fakenews < fakenews_number) {
       for (int i = 0; i < fakenews_type.length; i++) {
         int current_type = fakenews_type[i];
-        fakenews_alive[count_fakenews] = createFakeNewsFactory(current_type, count_fakenews);
-        setFakenewsRandomPosition(fakenews_alive[count_fakenews]);
+        fakenews_alive.add(i, createFakeNewsFactory(current_type, count_fakenews));
+        setFakenewsRandomPosition(fakenews_alive.get(i));
         count_fakenews++;
       }
     }

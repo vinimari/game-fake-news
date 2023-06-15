@@ -1,5 +1,6 @@
 package classes.FakeNews;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import classes.Cores;
@@ -48,11 +49,11 @@ public class FakenewsTwo extends Fakenews {
           } else if (piece_name.charAt(initial_name_position) == 'F') {
             displayColisionMessage(fake_news_name, "fake news");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else if (piece_name.charAt(initial_name_position) == 'X') {
             displayColisionMessage(fake_news_name, "zona restrita");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else {
             displayColisionMessage(fake_news_name, "item");
             board[row][col] = " ";
@@ -64,7 +65,7 @@ public class FakenewsTwo extends Fakenews {
         } else {
           System.out.println(fake_news_name + " saiu do tabuleiro!");
           board[row][col] = " ";
-          // Eliminar fake news
+          this.type = 0;
         }
         break;
       }
@@ -89,11 +90,11 @@ public class FakenewsTwo extends Fakenews {
           } else if (piece_name.charAt(initial_name_position) == 'F') {
             displayColisionMessage(fake_news_name, "fake news");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else if (piece_name.charAt(initial_name_position) == 'X') {
             displayColisionMessage(fake_news_name, "zona restrita");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else {
             displayColisionMessage(fake_news_name, "item");
             board[row][col] = " ";
@@ -105,7 +106,7 @@ public class FakenewsTwo extends Fakenews {
         } else {
           System.out.println(fake_news_name + " saiu do tabuleiro!");
           board[row][col] = " ";
-          // Eliminar fake news
+          this.type = 0;
         }
         break;
       }
@@ -130,11 +131,11 @@ public class FakenewsTwo extends Fakenews {
           } else if (piece_name.charAt(initial_name_position) == 'F') {
             displayColisionMessage(fake_news_name, "fake news");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else if (piece_name.charAt(initial_name_position) == 'X') {
             displayColisionMessage(fake_news_name, "zona restrita");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else {
             displayColisionMessage(fake_news_name, "item");
             board[row][col] = " ";
@@ -146,7 +147,7 @@ public class FakenewsTwo extends Fakenews {
         } else {
           System.out.println(fake_news_name + " saiu do tabuleiro!");
           board[row][col] = " ";
-          // Eliminar fake news
+          this.type = 0;
         }
         break;
       }
@@ -171,11 +172,11 @@ public class FakenewsTwo extends Fakenews {
           } else if (piece_name.charAt(initial_name_position) == 'F') {
             displayColisionMessage(fake_news_name, "fake news");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else if (piece_name.charAt(initial_name_position) == 'X') {
             displayColisionMessage(fake_news_name, "zona restrita");
             board[row][col] = " ";
-            // Eliminar fake news
+            this.type = 0;
           } else {
             displayColisionMessage(fake_news_name, "item");
             board[row][col] = " ";
@@ -187,7 +188,7 @@ public class FakenewsTwo extends Fakenews {
         } else {
           System.out.println(fake_news_name + " saiu do tabuleiro!");
           board[row][col] = " ";
-          // Eliminar fake news
+          this.type = 0;
         }
         break;
       }
