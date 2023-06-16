@@ -2,7 +2,7 @@ package classes;
 
 public class Player {
   int id;
-  static String player_name;
+  String player_name;
   int[] current_position;
   String stored_item;
   int initial_name_position = 5;
@@ -44,8 +44,9 @@ public class Player {
           String piece_name = board[new_row][col];
           if (piece_name == " ") {
             board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[0] = new_row;
-            setPlayerNewPosition(currentPosition, board);
           } else if (piece_name.charAt(initial_name_position) == 'J') {
             System.out.println("Ops, existe outro jogador nessa posição");
           } else if (piece_name.charAt(initial_name_position) == 'F') {
@@ -57,8 +58,10 @@ public class Player {
           } else {
             System.out.println(player_name + " armazenou um item");
             board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[0] = new_row;
-            setPlayerNewPosition(currentPosition, board);
+
           }
         } else {
           System.out.println(player_name + " saiu do tabuleiro!");
@@ -73,8 +76,9 @@ public class Player {
           String piece_name = board[new_row][col];
           if (piece_name == " ") {
             board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[0] = new_row;
-            setPlayerNewPosition(currentPosition, board);
           } else if (piece_name.charAt(initial_name_position) == 'J') {
             System.out.println("Ops, existe outro jogador nessa posição");
           } else if (piece_name.charAt(initial_name_position) == 'F') {
@@ -86,8 +90,10 @@ public class Player {
           } else {
             System.out.println(player_name + " armazenou um item");
             board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[0] = new_row;
-            setPlayerNewPosition(currentPosition, board);
+
           }
         } else {
           System.out.println(player_name + " saiu do tabuleiro!");
@@ -103,8 +109,10 @@ public class Player {
           String piece_name = board[row][new_col];
           if (piece_name == " ") {
             board[row][col] = " ";
-            this.current_position[0] = new_col;
-            setPlayerNewPosition(currentPosition, board);
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
           } else if (piece_name.charAt(initial_name_position) == 'J') {
             System.out.println("Ops, existe outro jogador nessa posição");
           } else if (piece_name.charAt(initial_name_position) == 'F') {
@@ -116,8 +124,10 @@ public class Player {
           } else {
             System.out.println(player_name + " armazenou um item");
             board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[1] = new_col;
-            setPlayerNewPosition(currentPosition, board);
+
           }
         } else {
           System.out.println(player_name + " saiu do tabuleiro!");
@@ -133,8 +143,10 @@ public class Player {
           String piece_name = board[row][new_col];
           if (piece_name == " ") {
             board[row][col] = " ";
-            this.current_position[0] = new_col;
-            setPlayerNewPosition(currentPosition, board);
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
           } else if (piece_name.charAt(initial_name_position) == 'J') {
             System.out.println("Ops, existe outro jogador nessa posição");
           } else if (piece_name.charAt(initial_name_position) == 'F') {
@@ -146,8 +158,10 @@ public class Player {
           } else {
             System.out.println(player_name + " armazenou um item");
             board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
             this.current_position[1] = new_col;
-            setPlayerNewPosition(currentPosition, board);
+
           }
         } else {
           System.out.println(player_name + " saiu do tabuleiro!");
@@ -174,10 +188,4 @@ public class Player {
     }
     return is_inside;
   }
-
-  static void setPlayerNewPosition(int[] player_position, String[][] board) {
-    board[player_position[0]][player_position[1]] = Cores.ANSI_GREEN + player_name
-        + Cores.ANSI_RESET;
-  }
-
 }

@@ -92,10 +92,10 @@ public class MakeTurn {
 
   static void checkDeadPlayers() {
     String[][] position_board = board.getMatriz();
-    Iterator<Player> iterator = players_alive.iterator();
 
     for (int row = 0; row < position_board.length; row++) {
       for (int col = 0; col < position_board.length; col++) {
+        Iterator<Player> iterator = players_alive.iterator();
         String name = position_board[row][col];
         if (name == " ") {
           if (players_alive.size() == 1) {
@@ -105,14 +105,16 @@ public class MakeTurn {
               System.out.println(player.getPlayerName() + " eliminado!");
             }
           } else {
-              while (iterator.hasNext()) {
-                Player player = iterator.next();
-                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+
+            while (iterator.hasNext()) {
+              Player player = iterator.next();
+              int[] players_position = player.getCurrentPosition();
+              if (players_position[0] == row && players_position[1] == col) {
                 iterator.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
-                }
               }
             }
+          }
         } else if (name.charAt(5) == 'F') {
           if (players_alive.size() == 1) {
             Player player = players_alive.get(0);
@@ -121,14 +123,14 @@ public class MakeTurn {
               System.out.println(player.getPlayerName() + " eliminado!");
             }
           } else {
-              while (iterator.hasNext()) {
-                Player player = iterator.next();
-                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+            while (iterator.hasNext()) {
+              Player player = iterator.next();
+              if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
                 iterator.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
-                }
               }
             }
+          }
         } else if (name.charAt(5) == 'X') {
           if (players_alive.size() == 1) {
             Player player = players_alive.get(0);
@@ -137,14 +139,14 @@ public class MakeTurn {
               System.out.println(player.getPlayerName() + " eliminado!");
             }
           } else {
-              while (iterator.hasNext()) {
+            while (iterator.hasNext()) {
               Player player = iterator.next();
-                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+              if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
                 iterator.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
-                }
               }
             }
+          }
         }
       }
     }
@@ -314,6 +316,6 @@ public class MakeTurn {
 
   static int getNumbersOfPlayers() {
     System.out.println("Digite a quantidade de jogadores [1 até 4]: 1");
-    return 1;
+    return 2;
   }
 }
