@@ -5,6 +5,7 @@ public class Player {
   String player_name;
   int[] current_position;
   String stored_item;
+  int initial_name_position = 5;
 
   public Player(int id, String player_name, int[] current_position) {
     this.id = id;
@@ -28,7 +29,7 @@ public class Player {
     return this.stored_item;
   }
 
-  public void movePlayer(int new_direction) {
+  public void movePlayer(String new_direction, String[][] board) {
 
     int[] currentPosition = getCurrentPosition();
     int row = currentPosition[0];
@@ -36,23 +37,136 @@ public class Player {
 
     switch (new_direction) {
       // Move North (decrease row one unity)
-      case 1: {
-        this.current_position[0] = this.current_position[0] - 1;
+      case "W": {
+        int new_row = row - 1;
+
+        if (checkInsideBoard(new_row, col)) {
+          String piece_name = board[new_row][col];
+          if (piece_name == " ") {
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[0] = new_row;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            System.out.println("Ops, existe outro jogador nessa posição");
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            System.out.println(player_name + " colidiu com uma fake news");
+            board[row][col] = " ";
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            System.out.println(player_name + " colidiu com uma zona de restrição");
+            board[row][col] = " ";
+          } else {
+            System.out.println(player_name + " armazenou um item");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[0] = new_row;
+
+          }
+        } else {
+          System.out.println(player_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+        }
         break;
       }
       // Move South (increase row one unity)
-      case 2: {
-        this.current_position[0] = this.current_position[0] + 1;
+      case "S": {
+        int new_row = row + 1;
+        if (checkInsideBoard(new_row, col)) {
+          String piece_name = board[new_row][col];
+          if (piece_name == " ") {
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[0] = new_row;
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            System.out.println("Ops, existe outro jogador nessa posição");
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            System.out.println(player_name + " colidiu com uma fake news");
+            board[row][col] = " ";
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            System.out.println(player_name + " colidiu com uma zona de restrição");
+            board[row][col] = " ";
+          } else {
+            System.out.println(player_name + " armazenou um item");
+            board[row][col] = " ";
+            board[new_row][col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[0] = new_row;
+
+          }
+        } else {
+          System.out.println(player_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+        }
         break;
       }
       // Move East / Right (increase col one unity)
-      case 3: {
-        this.current_position[1] = this.current_position[1] + 1;
+      case "D": {
+        int new_col = col + 1;
+
+        if (checkInsideBoard(row, new_col)) {
+          String piece_name = board[row][new_col];
+          if (piece_name == " ") {
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            System.out.println("Ops, existe outro jogador nessa posição");
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            System.out.println(player_name + " colidiu com uma fake news");
+            board[row][col] = " ";
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            System.out.println(player_name + " colidiu com uma zona de restrição");
+            board[row][col] = " ";
+          } else {
+            System.out.println(player_name + " armazenou um item");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
+          }
+        } else {
+          System.out.println(player_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+        }
         break;
       }
       // Move West / Left (decrease col one unity)
-      case 4: {
-        this.current_position[1] = this.current_position[1] - 1;
+      case "A": {
+        int new_col = col - 1;
+
+        if (checkInsideBoard(row, new_col)) {
+          String piece_name = board[row][new_col];
+          if (piece_name == " ") {
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
+          } else if (piece_name.charAt(initial_name_position) == 'J') {
+            System.out.println("Ops, existe outro jogador nessa posição");
+          } else if (piece_name.charAt(initial_name_position) == 'F') {
+            System.out.println(player_name + " colidiu com uma fake news");
+            board[row][col] = " ";
+          } else if (piece_name.charAt(initial_name_position) == 'X') {
+            System.out.println(player_name + " colidiu com uma zona de restrição");
+            board[row][col] = " ";
+          } else {
+            System.out.println(player_name + " armazenou um item");
+            board[row][col] = " ";
+            board[row][new_col] = Cores.ANSI_GREEN + player_name
+                + Cores.ANSI_RESET;
+            this.current_position[1] = new_col;
+
+          }
+        } else {
+          System.out.println(player_name + " saiu do tabuleiro!");
+          board[row][col] = " ";
+        }
         break;
       }
     }
@@ -65,5 +179,13 @@ public class Player {
 
   public void useItem() {
 
+  }
+
+  static boolean checkInsideBoard(int new_row, int new_col) {
+    boolean is_inside = false;
+    if (new_row >= 0 && new_row < 9 && new_col >= 0 && new_col < 9) {
+      is_inside = true;
+    }
+    return is_inside;
   }
 }

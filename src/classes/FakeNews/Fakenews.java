@@ -1,5 +1,6 @@
 package classes.FakeNews;
 
+
 public abstract class Fakenews {
   int id;
   int type;
@@ -29,5 +30,7 @@ public abstract class Fakenews {
     return this.position;
   }
 
-  protected abstract String moveFakeNews(String[][] matriz);
+  public abstract void moveFakeNews(String[][] board);
+
+  public abstract void onDoubleFakeNews(String[][] board);
 }
