@@ -56,8 +56,11 @@ public class MakeTurn {
         System.out.println("Vitória dps Jogadores");
         break;
       }
+      if (round_count == 20) {
+        System.out.println("Turnos Finalizados - Vitória das Fake News");
+        break;
+      }
     }
-    System.out.println("Turnos Finalizados - Vitória das Fake News");
   }
 
   static int onFakenewsTurn(long time_interval) {
