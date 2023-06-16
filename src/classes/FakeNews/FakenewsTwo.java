@@ -195,6 +195,12 @@ public class FakenewsTwo extends Fakenews {
     }
   }
 
+  @Override
+  public void onDoubleFakeNews(String[][] board) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'onDoubleFakeNews'");
+  }
+
   static void displayMovementMessage(String fakenews_name, String direction) {
     System.out.println(fakenews_name + " se moveu para: " + direction);
   }

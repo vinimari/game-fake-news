@@ -14,6 +14,7 @@ public class MakeTurn {
   static Board board;
   static ArrayList<Player> players_alive;
   static ArrayList<Fakenews> fakenews_alive;
+  static ArrayList<Item> item_list;
 
   public static void onSetBoard() {
     /*
@@ -90,7 +91,57 @@ public class MakeTurn {
         iterator.remove();
       }
     }
+    checkForDuplicateFakenews();
     return 1;
+  }
+
+  /*
+   * Verifica se nas posiççoes do item, existe uma fakenews
+   * if true
+   * deleta item, gera item em um novo local
+   * gera uma nova faknews em uma posição adjacente
+   * 
+   */
+
+  static void checkForDuplicateFakenews() {
+    Iterator<Item> iterator_item = item_list.iterator();
+    String[][] position_board = board.getMatriz();
+
+    while (iterator_item.hasNext()) {
+      Item item = iterator_item.next();
+      int[] item_position = item.getCurrentPosition();
+      String name = position_board[item_position[0]][item_position[1]];
+      int type = 1;
+
+      if (name.substring(5, 6) == "F1") {
+        type = 1;
+        generateNewItem(iterator_item);
+        duplicateFakenews(type, item_position);
+      } else if (name.substring(5, 6) == "F2") {
+        type = 2;
+        generateNewItem(iterator_item);
+        duplicateFakenews(type, item_position);
+      } else if (name.substring(5, 6) == "F3") {
+        type = 3;
+        generateNewItem(iterator_item);
+        duplicateFakenews(type, item_position);
+      }
+    }
+  }
+
+  static void generateNewItem(Iterator<Item> iterator_item) {
+    iterator_item.remove();
+    int new_item_type = generateRandomPosition(1, 4)[0];
+    createItemFactory(new_item_type, 4);
+    System.out.println("Um novo item foi gerado");
+  }
+
+  static void duplicateFakenews(int type, int[] item_position) {
+    int new_row = item_position[0] + 1;
+    int new_col = item_position[1] + 1;
+    int[] new_position = { new_row, new_col };
+    createFakeNewsFactory(1, 4, new_position);
+    System.out.println("Uma fake news foi duplicada");
   }
 
   static void checkDeadPlayers() {
@@ -98,7 +149,7 @@ public class MakeTurn {
 
     for (int row = 0; row < position_board.length; row++) {
       for (int col = 0; col < position_board.length; col++) {
-        Iterator<Player> iterator = players_alive.iterator();
+        Iterator<Player> iterator_player = players_alive.iterator();
         String name = position_board[row][col];
         if (name == " ") {
           if (players_alive.size() == 1) {
@@ -109,11 +160,11 @@ public class MakeTurn {
             }
           } else {
 
-            while (iterator.hasNext()) {
-              Player player = iterator.next();
+            while (iterator_player.hasNext()) {
+              Player player = iterator_player.next();
               int[] players_position = player.getCurrentPosition();
               if (players_position[0] == row && players_position[1] == col) {
-                iterator.remove();
+                iterator_player.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
               }
             }
@@ -126,10 +177,10 @@ public class MakeTurn {
               System.out.println(player.getPlayerName() + " eliminado!");
             }
           } else {
-            while (iterator.hasNext()) {
-              Player player = iterator.next();
+            while (iterator_player.hasNext()) {
+              Player player = iterator_player.next();
               if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
-                iterator.remove();
+                iterator_player.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
               }
             }
@@ -142,10 +193,10 @@ public class MakeTurn {
               System.out.println(player.getPlayerName() + " eliminado!");
             }
           } else {
-            while (iterator.hasNext()) {
-              Player player = iterator.next();
+            while (iterator_player.hasNext()) {
+              Player player = iterator_player.next();
               if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
-                iterator.remove();
+                iterator_player.remove();
                 System.out.println(player.getPlayerName() + " eliminado!");
               }
             }
@@ -204,47 +255,44 @@ public class MakeTurn {
 
     while (count_fakenews < fakenews_number) {
       for (int i = 0; i < fakenews_type.length; i++) {
+        int[] randon_position = generateRandomPosition(1, 7);
         int current_type = fakenews_type[i];
-        fakenews_alive.add(i, createFakeNewsFactory(current_type, count_fakenews));
+        fakenews_alive.add(i, createFakeNewsFactory(current_type, count_fakenews, randon_position));
         setFakenewsRandomPosition(fakenews_alive.get(i));
         count_fakenews++;
       }
     }
   }
 
-  static Item[] createItem() {
-    int item_quantity = 2; // minimum value: 2
-    Item[] item_list = new Item[item_quantity];
-
+  static ArrayList<Item> createItem() {
+    int item_quantity = 2;
     // Generate radom item type
     int min = 1, max = 4;
     Random rand = new Random();
     int randon_item_type = rand.nextInt(max - min + 1) + min;
 
+    item_list = new ArrayList<Item>(item_quantity);
     for (int i = 0; i < item_quantity; i++) {
-      item_list[i] = createItemFactory(randon_item_type, i);
-      setItemRandomPosition(item_list[i]);
+      item_list.add(i, createItemFactory(randon_item_type, i));
+      setItemRandomPosition(item_list.get(i));
     }
     return item_list;
   }
 
-  static Fakenews createFakeNewsFactory(int type, int id) {
+  static Fakenews createFakeNewsFactory(int type, int id, int[] random_position) {
     switch (type) {
       case 1: {
-        int[] random_position = generateRandomPosition(1, 7);
         String[][] Board = board.getMatriz();
         String fakenews_name = "F1";
         return new FakenewsOne(id + 1, type, fakenews_name,
             random_position, Board);
       }
       case 2: {
-        int[] random_position = generateRandomPosition(1, 7);
         String fakenews_name = "F2";
         return new FakenewsTwo(id + 1, type, fakenews_name,
             random_position);
       }
       case 3: {
-        int[] random_position = generateRandomPosition(1, 7);
         String fakenews_name = "F3";
         return new FakenewsThree(id + 1, type, fakenews_name,
             random_position);
