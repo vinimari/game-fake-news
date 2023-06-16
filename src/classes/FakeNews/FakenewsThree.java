@@ -34,7 +34,7 @@ public class FakenewsThree extends Fakenews {
                 int new_col = col - distance_movement;
 
                 if (checkInsideBoard(new_row, new_col)) {
-                    String piece_name = board[new_row][col];
+                    String piece_name = board[new_row][new_col];
 
                     if (piece_name == " ") {
                         displayMovementMessage(fake_news_name, "Noroeste");
@@ -80,7 +80,7 @@ public class FakenewsThree extends Fakenews {
                 int new_col = col + distance_movement;
 
                 if (checkInsideBoard(new_row, new_col)) {
-                    String piece_name = board[new_row][col];
+                    String piece_name = board[new_row][new_col];
 
                     if (piece_name == " ") {
                         displayMovementMessage(fake_news_name, "Nordeste");
@@ -125,7 +125,7 @@ public class FakenewsThree extends Fakenews {
                 int new_col = col - distance_movement;
 
                 if (checkInsideBoard(new_row, new_col)) {
-                    String piece_name = board[new_row][col];
+                    String piece_name = board[new_row][new_col];
 
                     if (piece_name == " ") {
                         displayMovementMessage(fake_news_name, "Sudoeste");
@@ -170,7 +170,7 @@ public class FakenewsThree extends Fakenews {
                 int new_col = col + distance_movement;
 
                 if (checkInsideBoard(new_row, new_col)) {
-                    String piece_name = board[new_row][col];
+                    String piece_name = board[new_row][new_col];
 
                     if (piece_name == " ") {
                         displayMovementMessage(fake_news_name, "Sudeste");
