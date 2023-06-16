@@ -12,7 +12,7 @@ import classes.FakeNews.*;
 public class MakeTurn {
   static int round = 20;
   static Board board;
-  static Player[] players_alive;
+  static ArrayList<Player> players_alive;
   static ArrayList<Fakenews> fakenews_alive;
 
   public static void onSetBoard() {
@@ -46,16 +46,24 @@ public class MakeTurn {
      * fakenews alives = 0 -> players victory
      * rounds played = 20 -> fakenews victory
      */
-    
-    for (int round_count = 0; round_count < round; round_count++) {
-      onPlayersTurn(round_count + 1);
-      onFakenewsTurn(2500);
-    }
 
-    System.out.println("Turnos Finalizados - Vitória das Fakenews");
+    for (int round_count = 0; round_count < round; round_count++) {
+      if (onPlayersTurn(round_count + 1) == 0) {
+        System.out.println("Vitória das Fake News");
+        break;
+      }
+      if (onFakenewsTurn(2000) == 0) {
+        System.out.println("Vitória dps Jogadores");
+        break;
+      }
+    }
+    System.out.println("Turnos Finalizados - Vitória das Fake News");
   }
 
-  static void onFakenewsTurn(long time_interval) {
+  static int onFakenewsTurn(long time_interval) {
+    if (fakenews_alive.isEmpty()) {
+      return 0;
+    }
     System.out.println("******************");
     System.out.println("Turno das Fakenews");
     System.out.println("******************");
@@ -70,7 +78,7 @@ public class MakeTurn {
       }
     }
 
-    // Remove deed fakenews
+    // Remove dead fakenews
     Iterator<Fakenews> iterator = fakenews_alive.iterator();
     while (iterator.hasNext()) {
       Fakenews fakenews = iterator.next();
@@ -79,9 +87,76 @@ public class MakeTurn {
         iterator.remove();
       }
     }
+    return 1;
   }
 
-  static void onPlayersTurn(int round_count) {
+  static void checkDeadPlayers() {
+    String[][] position_board = board.getMatriz();
+    Iterator<Player> iterator = players_alive.iterator();
+
+    for (int row = 0; row < position_board.length; row++) {
+      for (int col = 0; col < position_board.length; col++) {
+        String name = position_board[row][col];
+        if (name == " ") {
+          if (players_alive.size() == 1) {
+            Player player = players_alive.get(0);
+            if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+              players_alive.clear();
+              System.out.println(player.getPlayerName() + " eliminado!");
+            }
+          } else {
+              while (iterator.hasNext()) {
+                Player player = iterator.next();
+                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+                iterator.remove();
+                System.out.println(player.getPlayerName() + " eliminado!");
+                }
+              }
+            }
+        } else if (name.charAt(5) == 'F') {
+          if (players_alive.size() == 1) {
+            Player player = players_alive.get(0);
+            if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+              players_alive.clear();
+              System.out.println(player.getPlayerName() + " eliminado!");
+            }
+          } else {
+              while (iterator.hasNext()) {
+                Player player = iterator.next();
+                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+                iterator.remove();
+                System.out.println(player.getPlayerName() + " eliminado!");
+                }
+              }
+            }
+        } else if (name.charAt(5) == 'X') {
+          if (players_alive.size() == 1) {
+            Player player = players_alive.get(0);
+            if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+              players_alive.clear();
+              System.out.println(player.getPlayerName() + " eliminado!");
+            }
+          } else {
+              while (iterator.hasNext()) {
+              Player player = iterator.next();
+                if (player.getCurrentPosition()[0] == row && player.getCurrentPosition()[1] == col) {
+                iterator.remove();
+                System.out.println(player.getPlayerName() + " eliminado!");
+                }
+              }
+            }
+        }
+      }
+    }
+  }
+
+  static int onPlayersTurn(int round_count) {
+    if (round_count > 1) {
+      checkDeadPlayers();
+      if (players_alive.isEmpty()) {
+        return 0;
+      }
+    }
     System.out.println("###################");
     System.out.println("Turno " + round_count + "/20 dos Jogadores");
     System.out.println("###################");
@@ -97,21 +172,21 @@ public class MakeTurn {
       System.out.println("------------------------------");
       Scanner scanner = new Scanner(System.in);
       String player_movement_direction = scanner.nextLine().toUpperCase();
-      clearPlayerLastPosition(player);
-      player.movePlayer(player_movement_direction);
-      setPlayerNewPosition(player);
+      player.movePlayer(player_movement_direction, board.getMatriz());
       board.showBoard();
     }
+    return 1;
   }
 
   static void createPlayer(int players_quantity) {
     String[] players_names = { "J1", "J2", "J3", "J4" };
     int[][] players_position = { { 0, 4 }, { 4, 8 }, { 8, 4 }, { 4, 0 } };
-    players_alive = new Player[players_quantity];
+    players_alive = new ArrayList<Player>(players_quantity);
     String[][] position_board = board.getMatriz();
 
     for (int i = 0; i < players_quantity; i++) {
-      players_alive[i] = new Player(i + 1, players_names[i], players_position[i]);
+      Player player = new Player(i + 1, players_names[i], players_position[i]);
+      players_alive.add(i, player);
       position_board[players_position[i][0]][players_position[i][1]] = Cores.ANSI_GREEN + players_names[i]
           + Cores.ANSI_RESET;
     }
@@ -240,20 +315,5 @@ public class MakeTurn {
   static int getNumbersOfPlayers() {
     System.out.println("Digite a quantidade de jogadores [1 até 4]: 1");
     return 1;
-  }
-
-  static void clearPlayerLastPosition(Player player) {
-    int[] player_last_position = player.getCurrentPosition();
-    int row = player_last_position[0], col = player_last_position[1];
-    board.setValue(row, col, " ");
-  }
-
-  static void setPlayerNewPosition(Player player) {
-    String[][] position_board = board.getMatriz();
-    int[] player_position = player.getCurrentPosition();
-    String player_name = player.getPlayerName();
-
-    position_board[player_position[0]][player_position[1]] = Cores.ANSI_GREEN + player_name
-        + Cores.ANSI_RESET;
   }
 }
